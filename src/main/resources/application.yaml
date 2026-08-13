@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: stockflow-api
+
+  datasource:
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+
+  flyway:
+    enabled: true
