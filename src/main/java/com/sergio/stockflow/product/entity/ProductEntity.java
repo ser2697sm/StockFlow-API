@@ -12,6 +12,7 @@ import java.time.OffsetDateTime;
 @Entity
 @Table(name = "products")
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProductEntity {
 

@@ -83,6 +83,69 @@ public class OrdersService {
                 .toList();
     }
 
+    @Transactional
+    public OrderResponse confirmOrder(Long id) {
+
+        //Buscamos el pedido
+        OrderEntity order = ordersRepository.findById(id)
+                .orElseThrow(() -> new ConflictException("Order: " + id + " no encontrado"));
+
+        // Comprobamos antes de modificar nada que no esté confirmado.
+        if(order.getStatus() == OrderStatus.CONFIRMED) {
+            throw new ConflictException(
+                    "El pedido: " + id + " ya está confirmado"
+            );
+        }
+
+        // Comprobamos y descontamos el stock de cada línea.
+        order.getOrderLines().forEach(orderLine -> {
+            ProductEntity product = orderLine.getProduct();
+            int requestedQuantity = orderLine.getQuantity();
+
+            if (product.getStock() < requestedQuantity) {
+                throw new ConflictException("Stock insuficiente para el producto: " + product.getId());
+            }
+
+            product.setStock(product.getStock() - requestedQuantity);
+        });
+
+        // Confirmamos el pedido solamente cuando todas las líneas son válidas.
+        order.setStatus(OrderStatus.CONFIRMED);
+        return toResponse(order);
+    }
+
+    @Transactional
+    public OrderResponse cancelOrder(Long id) {
+
+        //Buscamos el pedido
+        OrderEntity order = ordersRepository.findById(id)
+                .orElseThrow(() -> new ConflictException("Order: " + id + " no encontrado"));
+
+        // Evitamos cancelar dos veces y recuperar el stock nuevamente.
+        if (order.getStatus() == OrderStatus.CANCELLED) {
+            throw new ConflictException(
+                    "El pedido: " + id + " ya está cancelado"
+            );
+        }
+
+        // Comprobamos antes de modificar nada que no esté confirmado.
+        if(order.getStatus() == OrderStatus.CONFIRMED) {
+            throw new ConflictException("El pedido: " + id + "  no se puede cancelar porque no está confirmado");
+        }
+
+        // Comprobamos y descontamos el stock de cada línea.
+        order.getOrderLines().forEach(orderLine -> {
+            ProductEntity product = orderLine.getProduct();
+            int requestedQuantity = orderLine.getQuantity();
+
+            product.setStock(product.getStock() + requestedQuantity);
+        });
+
+        // Mrcamos el pedido como cancelado
+        order.setStatus(OrderStatus.CANCELLED);
+        return toResponse(order);
+    }
+
     // @Transactional(readOnly = true) -> Transacción solo de lectura para consultar el pedido y sus relaciones LAZY.
     @Transactional(readOnly = true)
     public OrderResponse getOrder(Long id) {
