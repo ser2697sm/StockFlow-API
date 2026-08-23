@@ -22,8 +22,17 @@ public class OrderController {
     //Registrar una compra o pedido compuesto por uno o varios productos.
     @PostMapping
     public ResponseEntity<OrderResponse> saveOrders(@Valid @RequestBody OrderRequest orderRequest) {
-        OrderResponse orderResponse = ordersService.save(orderRequest);
-        return ResponseEntity.ok((ordersService.save(orderRequest)));
+        return ResponseEntity.ok(ordersService.save(orderRequest));
+    }
+
+    @PostMapping("{id}/confirm")
+    public ResponseEntity<?> confirmOrder(@PathVariable Long id) {
+        return ResponseEntity.ok(ordersService.confirmOrder(id));
+    }
+
+    @PostMapping("{id}/cancel")
+    public ResponseEntity<?> cancelOrder(@PathVariable Long id) {
+        return ResponseEntity.ok(ordersService.cancelOrder(id));
     }
 
     //Devuelve el listado de todas las compras

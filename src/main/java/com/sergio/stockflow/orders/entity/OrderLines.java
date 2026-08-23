@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "orderLines")
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
