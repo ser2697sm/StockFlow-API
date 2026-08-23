@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -64,7 +63,7 @@ public class ProductService {
         ProductEntity product =  productRepository.findById(id).orElseThrow(
                 () -> new ConflictException("No existe el producto buscado"));
 
-       productRepository.delete(product);
+        productRepository.delete(product);
     }
 
     private ProductEntity toEntity(ProductRequest productRequest) {
