@@ -1,10 +1,7 @@
 package com.sergio.stockflow.product.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -13,7 +10,9 @@ import java.time.OffsetDateTime;
 @Table(name = "products")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PUBLIC)
 public class ProductEntity {
 
     public ProductEntity(
