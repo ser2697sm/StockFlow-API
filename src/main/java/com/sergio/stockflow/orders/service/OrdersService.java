@@ -128,12 +128,12 @@ public class OrdersService {
             );
         }
 
-        // Comprobamos antes de modificar nada que no esté confirmado.
-        if(order.getStatus() == OrderStatus.CONFIRMED) {
+        // Solo se pueden cancelar pedidos confirmados.
+        if(order.getStatus() != OrderStatus.CONFIRMED) {
             throw new ConflictException("El pedido: " + id + "  no se puede cancelar porque no está confirmado");
         }
 
-        // Comprobamos y descontamos el stock de cada línea.
+        // Recuperamos el stock de cada línea.
         order.getOrderLines().forEach(orderLine -> {
             ProductEntity product = orderLine.getProduct();
             int requestedQuantity = orderLine.getQuantity();
