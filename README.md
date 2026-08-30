@@ -2,6 +2,12 @@
 
 API REST para gestionar productos, stock y el ciclo de vida de pedidos. Un pedido se crea con el precio actual de sus productos, descuenta stock al confirmarse y lo recupera si después se cancela.
 
+## Demo
+
+La API está desplegada en:
+
+https://stockflowapi.duckdns.org/api/v1
+
 ## Stack
 
 - Java 21
