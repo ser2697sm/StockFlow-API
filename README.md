@@ -8,6 +8,13 @@ La API está desplegada en:
 
 https://stockflowapi.duckdns.org/api/v1
 
+## Documentación de la API
+
+La documentación interactiva permite consultar y probar los endpoints desplegados:
+
+- [Swagger UI](https://stockflowapi.duckdns.org/swagger-ui/index.html)
+- [OpenAPI JSON](https://stockflowapi.duckdns.org/v3/api-docs)
+
 ## Stack
 
 - Java 21
